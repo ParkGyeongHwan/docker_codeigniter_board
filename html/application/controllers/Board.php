@@ -31,6 +31,7 @@ class Board extends CI_Controller {
         $config['num_links'] = 5;
         $config['first_link'] = '처음으로';
         $config['last_link'] = '끝으로';
+        $config['reuse_query_string'] = TRUE;
         $this->pagination->initialize($config);
         // pagenation 끝
         
@@ -51,7 +52,17 @@ class Board extends CI_Controller {
     }
 
     public function view() {
-        $this->load->view('board/view');
+
+        // id값 가져오기
+        $id = $this->input->get('id');
+    
+        // id값을 가지고 모델 호출
+        $result = $this->Board_model->view_select($id);
+        
+        // 모델 메서드(쿼리 수행) 결과값을 뷰에 전달하며 뷰 호출
+        $data['result'] = $result;
+        $this->load->view('board/view', $data);
+        
     }
 }
 
