@@ -91,5 +91,20 @@ class Board_model extends CI_Model {
         ");
     
     }
+    public function board_delete($_id) {
+
+        //_id값을 입력받아 게시물을 삭제하는 쿼리
+        // status 컬럼을 1로 업데이트
+        $this->db->query("
+        UPDATE
+            ci_board
+        SET
+            status = 1
+        WHERE
+            _id = ".$_id."
+        ;
+        ");
+    
+    }
     
 }

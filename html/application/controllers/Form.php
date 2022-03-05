@@ -37,6 +37,17 @@ class Form extends CI_Controller {
         header("Location: http://127.0.0.1:9001/index.php/board/view?id=".$_id);
     
     }
+    public function board_delete() {
+
+        // get방식으로 _id 가져오기
+        $_id = $this->input->get('id');
+    
+        // _id값을 모델에 전달하여 삭제 쿼리 수행
+        $this->Board_model->board_delete($_id);
+    
+        // 쿼리 수행 완료 후 리스트 화면으로 이동
+        header("Location: http://127.0.0.1:9001/index.php/board/list");
+    }
 
   
 }
