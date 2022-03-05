@@ -13,12 +13,14 @@ class Board extends CI_Controller {
 
     public function list() {
 
+        // 검색어 가져오기
+        $search = $this->input->get('search');
         // 현재 페이지 가져오기
         $now_page = $this->uri->segment(3);
         // 전체글 개수 가져오기
-        $result_count = $this->Board_model->list_total();
+        $result_count = $this->Board_model->list_total($search);
         // 리스트 값 가져오기
-        $result_list = $this->Board_model->list_select($now_page);
+        $result_list = $this->Board_model->list_select($now_page, $search);
     
     
         // pagenation 시작
@@ -35,7 +37,7 @@ class Board extends CI_Controller {
         
         $data['page_nation'] = $this->pagination->create_links();
         $data['list'] = $result_list;
-        // $data['search'] = $search;
+        $data['search'] = $search;
     
         $this->load->view('board/list', $data);
     }

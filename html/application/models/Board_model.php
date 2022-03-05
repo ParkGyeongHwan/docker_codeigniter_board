@@ -11,7 +11,6 @@ class Board_model extends CI_Model {
         if ($now_page == '') {
             $now_page = 0;
         }
-    
         $data = $this->db->query('
         select 
             _id,
@@ -28,7 +27,7 @@ class Board_model extends CI_Model {
         $result = $data->result_array();
         return $result;
     }
-    public function list_total() {
+    public function list_total($search) {
         $data = $this->db->query('
         select
             count(*) as cnt
@@ -36,9 +35,12 @@ class Board_model extends CI_Model {
             ci_board
         where
             status = 0
+        and
+            title like "%'.$search.'%"
         ;
         ');
     
         return $data->row();
     }
+    
 }

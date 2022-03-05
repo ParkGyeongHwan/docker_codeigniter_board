@@ -26,3 +26,7 @@ foreach ($list as $row)
 
 <br />
 <a href="/index.php/board/input/">글쓰기</a>
+<form method="get" action = "/index.php">
+<input type='text' name="search" value="<?php echo $search?>">
+<input type="submit" value="검색하기">
+</form>
