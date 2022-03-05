@@ -61,7 +61,15 @@ class Form extends CI_Controller {
         header("Location: http://127.0.0.1:9001/index.php/board/view?id=".$board_id);
     
     }
-    
+    public function comment_delete() {
+        $board_id = $this->input->get('board_id');
+        $comment_id = $this->input->get('comment_id');
+
+        $this->Board_model->comment_delete($comment_id);
+
+        header("Location: http://127.0.0.1:9001/index.php/board/view?id=".$board_id);
+
+    }
   
 }
 
