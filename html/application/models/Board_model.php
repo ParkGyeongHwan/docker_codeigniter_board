@@ -126,5 +126,17 @@ class Board_model extends CI_Model {
         return $data->result_array();
     
     }
+    public function comment_insert($board_id, $content) {
+
+        // 게시물 id, content 값을 받아 댓글을 새로 삽입하는 쿼리 수행
+        $this->db->query("
+        INSERT INTO ci_comment
+            (board_id, content)
+        VALUES
+            (".$board_id.", '".$content."')
+        ;
+        ");
+    
+    }
     
 }

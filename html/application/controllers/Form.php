@@ -48,7 +48,20 @@ class Form extends CI_Controller {
         // 쿼리 수행 완료 후 리스트 화면으로 이동
         header("Location: http://127.0.0.1:9001/index.php/board/list");
     }
+    public function comment_insert() {
 
+        // post 방식으로 게시물의 id, content 가져오기
+        $board_id = $this->input->post('board_id');
+        $content = $this->input->post('content');
+    
+        // 게시물의 id, content를 모델에 전달하여 삽입 쿼리 수행
+        $this->Board_model->comment_insert($board_id, $content);
+    
+        // 삽입 쿼리 수행 완료하면 상세 페이지로 이동
+        header("Location: http://127.0.0.1:9001/index.php/board/view?id=".$board_id);
+    
+    }
+    
   
 }
 
