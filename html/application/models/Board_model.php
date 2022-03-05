@@ -7,10 +7,11 @@ class Board_model extends CI_Model {
         // $this->db 사용 가능
     }
 
-    public function list_select($now_page) {
+    public function list_select($now_page,$search) {
         if ($now_page == '') {
             $now_page = 0;
         }
+    
         $data = $this->db->query('
         select 
             _id,
@@ -20,6 +21,8 @@ class Board_model extends CI_Model {
             ci_board as ci_board
         where
             status = 0
+        and
+            title like "%'.$search.'%"
         order by _id desc
         limit '.$now_page.',10
         ;
@@ -27,6 +30,7 @@ class Board_model extends CI_Model {
         $result = $data->result_array();
         return $result;
     }
+    
     public function list_total($search) {
         $data = $this->db->query('
         select
