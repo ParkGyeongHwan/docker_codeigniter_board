@@ -12,7 +12,12 @@ class Board extends CI_Controller {
     }
 
     public function list() {
-        $this->load->view('board/list');
+        $result = $this->Board_model->list_select();
+        
+        $data['result'] = $result;
+
+        $this->load->view('board/list', $data);
+
     }
 
     public function input() {
