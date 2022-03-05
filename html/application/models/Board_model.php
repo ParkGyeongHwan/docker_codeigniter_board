@@ -76,5 +76,20 @@ class Board_model extends CI_Model {
         ');
     
     }
+    public function board_update($_id, $title, $content) {
+
+        // _id, title, content값을 입력받아 기존의 게시물을 수정하는 쿼리
+        $this->db->query("
+        UPDATE
+            ci_board
+        SET
+            title = '".$title."',
+            content = '".$content."'
+        WHERE
+            _id = ".$_id."
+        ;
+        ");
+    
+    }
     
 }

@@ -48,7 +48,17 @@ class Board extends CI_Controller {
     }
 
     public function update() {
-        $this->load->view('board/update');
+
+        // id값 가져오기
+        $id = $this->input->get('id');
+    
+        // id를 가지고 모델의 view_select메서드를 호출하여 기존 값 불러오기
+        // 기존에 작성했던 코드의 재사용
+        $result = $this->Board_model->view_select($id);
+    
+        // 쿼리 수행 결과값을 배열에 저장하고 뷰에 전달하며 뷰 호출
+        $data['result'] = $result;
+        $this->load->view('board/update', $data);
     }
 
     public function view() {
