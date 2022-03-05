@@ -73,6 +73,16 @@ class Board extends CI_Controller {
         $data['result'] = $result;
         $this->load->view('board/view', $data);
         
+        $this->comment_list($id);
+        
+    }
+    private function comment_list($board_id) {
+
+        $data['result'] = $result = $this->Board_model->comment_list($board_id);
+        $data['board_id'] = $board_id;
+    
+        $this->load->view('comment/list', $data);
+    
     }
 }
 
