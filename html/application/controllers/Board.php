@@ -12,12 +12,32 @@ class Board extends CI_Controller {
     }
 
     public function list() {
-        $result = $this->Board_model->list_select();
+
+        // 현재 페이지 가져오기
+        $now_page = $this->uri->segment(3);
+        // 전체글 개수 가져오기
+        $result_count = $this->Board_model->list_total();
+        // 리스트 값 가져오기
+        $result_list = $this->Board_model->list_select($now_page);
+    
+    
+        // pagenation 시작
+        $this->load->library('pagination');
+        $config['base_url'] = 'http://127.0.0.1:9001/index.php/board/list';
+        $config['total_rows'] = $result_count->cnt;
+        $config['per_page'] = 10;
+        $config['num_links'] = 5;
+        $config['first_link'] = '처음으로';
+        $config['last_link'] = '끝으로';
+        $this->pagination->initialize($config);
+        // pagenation 끝
         
-        $data['result'] = $result;
-
+        
+        $data['page_nation'] = $this->pagination->create_links();
+        $data['list'] = $result_list;
+        // $data['search'] = $search;
+    
         $this->load->view('board/list', $data);
-
     }
 
     public function input() {

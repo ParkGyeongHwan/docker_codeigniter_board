@@ -7,7 +7,11 @@ class Board_model extends CI_Model {
         // $this->db 사용 가능
     }
 
-    public function list_select() {
+    public function list_select($now_page) {
+        if ($now_page == '') {
+            $now_page = 0;
+        }
+    
         $data = $this->db->query('
         select 
             _id,
@@ -18,9 +22,23 @@ class Board_model extends CI_Model {
         where
             status = 0
         order by _id desc
+        limit '.$now_page.',10
         ;
         ');
         $result = $data->result_array();
         return $result;
+    }
+    public function list_total() {
+        $data = $this->db->query('
+        select
+            count(*) as cnt
+        from
+            ci_board
+        where
+            status = 0
+        ;
+        ');
+    
+        return $data->row();
     }
 }

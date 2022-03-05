@@ -7,7 +7,7 @@
     </tr>
 
 <?php
-foreach ($result as $row)
+foreach ($list as $row)
 {
 ?>
 
@@ -22,7 +22,7 @@ foreach ($result as $row)
 </table>
 
 <br />
-1 2 3 4 5 6 7 8 9 10
+<?php echo $page_nation; ?>
 
 <br />
 <a href="/index.php/board/input/">글쓰기</a>
