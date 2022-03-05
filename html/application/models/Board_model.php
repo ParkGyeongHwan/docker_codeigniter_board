@@ -64,5 +64,17 @@ class Board_model extends CI_Model {
         return $data->row();
         
     }
+    public function board_insert($title, $content) {
+
+        // title과 content값을 받아 새로운 게시물을 db에 삽입하는 쿼리문
+        $this->db->query('
+        INSERT INTO ci_board
+            (title, content)
+        VALUES
+            ("'.$title.'", "'.$content.'")
+        ;
+        ');
+    
+    }
     
 }
