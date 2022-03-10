@@ -28,13 +28,20 @@ class Member extends CI_Controller {
   
 
     public function insert(){
-        $id = $this->input->POST('email');
-        
-        $pw = $this->input->POST('password');
+		$email =  $this->input->post("email"); 
+		$password = $this->input->post("password");
+		$password = md5($password);
+ 
+		$result = $this->Board_model->member_insert($email,$password);
 
+		if($result == true)
+		{
+			echo "회원가입이 완료되었습니다.";
+		}
+		else {
+			echo "이미 가입된 이메일 입니다.";
 
-        $this->Board_model->member_insert($id,$pw);
+		}
+	}
+ }
 
-
-    }
-}

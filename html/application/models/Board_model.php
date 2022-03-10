@@ -160,32 +160,39 @@ public function comment_list($board_id) {
 
 
     
-   public function member_search($id) {
-       $data = $this->db->query('
-        SELECT
-            email
-        FROM
+  
+    public function member_select_email($email)
+    {
+        $data = $this->db->query("
+        select 
+            _id 
+        from 
             ci_member
-        WHERE
-            email = "'.$id.'"
-        ;
-        ');
-        return $data;
+        where  
+            email = '".$email."'
+        ");
+
+        return $data->row();
     }
 
 
-    public function member_insert($id,$pw) {
-        $result = $this->member_search($id);
-        if ($result == '')  {
-        $this->db->query('
-        INSERT INTO ci_member
-            (email, passwd)
-        VALUES
-            ("'.$id.'", "'.$pw.'")
-        ;
-        ');
+    public function member_insert($email,$password){
+
+        $result = $this->member_select_email($email);
+
+        if(!isset($result->_id))
+        {
+            $this->db->query("
+                INSERT INTO ci_member(email,passwd)
+                values('".$email."','".$password."')
+            ");
+            return true;
+
         }
-        else echo '중복된 이메일입니다';
+        else{
+            return false;
+        }
 
-    }
+    }  
+
 }
