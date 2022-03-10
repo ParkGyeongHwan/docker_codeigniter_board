@@ -32,44 +32,20 @@ class Member extends CI_Controller {
 			header("Location: /index.php/member/login");
 		}
 		else {
-			header("Location: /index.php/member/input?msg=중복된 이메일입니다");
+			header("Location: /index.php/member/input?msg=있는 이메일입 니다");
 		}
 	}
 
 	public function login(){
-		$data['msg'] = $this->input->get("msg");
+		
 		$this->session->sess_destroy(); // 세션 삭제
-		$this->load->view("member/login",$data);
+		$this->load->view("member/login");
 	}
 
 	public function update(){
-
-		$_id['_id'] = $this->session->userdata("_id");
-		$email['email'] = $this->session->userdata("email");
-		$this->load->view('member/update',$_id,$email);
-
-		$old_email = $this->input->post("old_email"); 
-		$new_email = $this->input->post("new_email"); 
-		$old_password = $this->input->post("old_password");
-		$new_password = $this->input->post("new_password");
-		$old_password = md5($old_password);
-		$new_password = md5($new_password);
-
-		$_id = $this->input->post("_id");
-
-		$result = $this->Board_model->pwd($old_email,$old_password);
-
-		
-
-		if(isset($result->_id)) {
-			$this->Board_model->member_update($new_email,$new_password,$_id);			
-
-
-		} else {
-
-		}
-
-
+		$data['msg'] = $this->input->get("msg");
+		$data["email"] = $this->session->userdata('email');
+		$this->load->view('member/update',$data);
 	}
 
 	public function session()
@@ -89,13 +65,37 @@ class Member extends CI_Controller {
 
 			$this->session->set_userdata($newdata);
 
-			
-
 			header("Location: /index.php/board/list");
 		}
 		else
 		{ 
-			header("Location: /index.php/member/login?msg=이메일과 비밀번호를 확인해주세요");
+			header("Location: /index.php/member/login");
 		}
+	}
+
+	public function modify()
+	{
+		$old_email = $this->session->userdata('email');
+		$old_password =  md5($this->input->post("password"));
+		
+		$new_email = $this->input->post("email"); 
+		$new_password = md5($this->input->post("new_password")); 
+		
+		$_id = $this->session->userdata('_id');
+
+		//로그인 모델 확인 전달 되는 값 (세션의 이메일, password)
+		$result = $this->Board_model->login_select($old_email,$old_password);
+
+		if(isset($result->_id))
+		{
+			//비밀번호가 맞으니까 정보 업데이트 해줌
+			$this->Board_model->member_update($_id,$new_email,$new_password);
+			header("Location: /index.php/member/login?msg=새로 로그인해 주세요");
+		}
+		else 
+		{
+			header("Location: /index.php/member/update?msg=비밀번호가 틀렸어");
+		}
+ 
 	}
 }
