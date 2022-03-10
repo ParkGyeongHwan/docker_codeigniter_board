@@ -37,9 +37,9 @@ class Member extends CI_Controller {
 	}
 
 	public function login(){
-		
+		$data['msg'] = $this->input->get("msg");
 		$this->session->sess_destroy(); // 세션 삭제
-		$this->load->view("member/login");
+		$this->load->view("member/login",$data);
 	}
 
 	public function update(){
@@ -67,7 +67,7 @@ class Member extends CI_Controller {
 		}
 		else
 		{ 
-			header("Location: /index.php/member/login");
+			header("Location: /index.php/member/login?msg=이메일과 비밀번호를 확인해주세요");
 		}
 	}
 }
