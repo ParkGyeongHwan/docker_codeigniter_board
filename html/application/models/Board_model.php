@@ -170,6 +170,30 @@ class Board_model extends CI_Model {
 
         return $data->row();
     } 
+    public function member_update($new_email,$new_password,$_id) {
 
- 
+        $this->db->query('
+            UPDATE 
+                ci_member
+            SET
+                email = "'.$new_email.'",
+                passwd = "'.$new_password.'"
+            WHERE
+                _id = "'.$_id.'"
+        ');
+    }
+
+    public function pwd ($old_email,$old_password) {
+        $data = $this->db->query("
+        select 
+            _id 
+        from 
+            ci_member
+        where  
+            email = '".$old_email."' and
+            passwd = '".$old_password."'
+        ");
+        return $data->row();
+    }
+
 }

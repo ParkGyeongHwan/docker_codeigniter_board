@@ -32,7 +32,7 @@ class Member extends CI_Controller {
 			header("Location: /index.php/member/login");
 		}
 		else {
-			header("Location: /index.php/member/input?msg=있는 이메일입 니다");
+			header("Location: /index.php/member/input?msg=중복된 이메일입니다");
 		}
 	}
 
@@ -43,7 +43,33 @@ class Member extends CI_Controller {
 	}
 
 	public function update(){
-		echo "회원정보수정";
+
+		$_id['_id'] = $this->session->userdata("_id");
+		$email['email'] = $this->session->userdata("email");
+		$this->load->view('member/update',$_id,$email);
+
+		$old_email = $this->input->post("old_email"); 
+		$new_email = $this->input->post("new_email"); 
+		$old_password = $this->input->post("old_password");
+		$new_password = $this->input->post("new_password");
+		$old_password = md5($old_password);
+		$new_password = md5($new_password);
+
+		$_id = $this->input->post("_id");
+
+		$result = $this->Board_model->pwd($old_email,$old_password);
+
+		
+
+		if(isset($result->_id)) {
+			$this->Board_model->member_update($new_email,$new_password,$_id);			
+
+
+		} else {
+
+		}
+
+
 	}
 
 	public function session()
@@ -62,6 +88,8 @@ class Member extends CI_Controller {
 			);
 
 			$this->session->set_userdata($newdata);
+
+			
 
 			header("Location: /index.php/board/list");
 		}

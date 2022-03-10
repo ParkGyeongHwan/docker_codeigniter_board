@@ -24,6 +24,11 @@ foreach ($list as $row)
 <br />
 <?php echo $page_nation; ?>
 
+
+
+
+
+
 <br />
 <a href="/index.php/board/input/">글쓰기</a>
 <form method="get">
