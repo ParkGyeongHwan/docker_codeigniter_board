@@ -30,3 +30,4 @@ foreach ($list as $row)
 <input type='text' name="search" value="<?php echo $search?>">
 <input type="submit" value="검색하기">
 </form>
+<a href="http://127.0.0.1:9001/index.php/member/login">로그아웃</a>
