@@ -25,14 +25,16 @@ class Member extends CI_Controller {
 		echo "회원정보수정";
 	}
 
+  
+
     public function insert(){
         $id = $this->input->POST('email');
-
+        
         $pw = $this->input->POST('password');
 
 
         $this->Board_model->member_insert($id,$pw);
 
-        header("Location: http://127.0.0.1:9001/index.php/board/list");
+
     }
 }

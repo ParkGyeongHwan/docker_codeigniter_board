@@ -159,7 +159,24 @@ public function comment_list($board_id) {
     }
 
 
+    
+   public function member_search($id) {
+       $data = $this->db->query('
+        SELECT
+            email
+        FROM
+            ci_member
+        WHERE
+            email = "'.$id.'"
+        ;
+        ');
+        return $data;
+    }
+
+
     public function member_insert($id,$pw) {
+        $result = $this->member_search($id);
+        if ($result == '')  {
         $this->db->query('
         INSERT INTO ci_member
             (email, passwd)
@@ -167,9 +184,8 @@ public function comment_list($board_id) {
             ("'.$id.'", "'.$pw.'")
         ;
         ');
-    }
-    public function member_insert($id,pw) {
-        
-    }
+        }
+        else echo '중복된 이메일입니다';
 
+    }
 }
