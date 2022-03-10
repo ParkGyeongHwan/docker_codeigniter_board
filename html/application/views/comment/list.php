@@ -4,9 +4,14 @@
     {
     ?>
     <tr>
-        <td>작성자: <?php echo $row['name']?></td>
+        <td>작성자: <?php echo $row['name']?>   </td>
         <td>댓글내용 : <?php echo $row['content']?></td>
-        <td><a href="javascript:comment_delete('<?php echo $board_id?>', '<?php echo $row['_id']?>');">X</a></td>
+        <td>
+        <?php if($row['member_id'] == $member_id){?>
+        <a href="javascript:comment_delete('<?php echo $row['_id']?>','<?php echo $board_id?>');">X</a>
+        <?php }?>
+    
+    </td>
     </tr>
 <?php }?>     
 </table>
@@ -17,13 +22,11 @@
 </form>
 
 <script>
-    function comment_delete(board_id, comment_id)
+    function comment_delete(commnet_id,board_id)
     {  
         if(confirm('진짜지우실?'))
         {
-            // 사용자가 확인버튼을 누르게 되면 form컨트롤러의 comment_delete 메서드로 이동합니다. 
-            // get방식으로 댓글의 id 값을 전달합니다.
-            location.href = "/index.php/form/comment_delete?board_id=" + board_id + "&comment_id=" + comment_id;
+            location.href="/index.php/form/comment_delete?comment_id="+commnet_id+"&board_id="+board_id;
         }
 
     }

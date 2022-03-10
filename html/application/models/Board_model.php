@@ -6,7 +6,7 @@ class Board_model extends CI_Model {
         $this->load->database(); 
     }
 
-    public function list_total($search)
+    public function list_total($search,$board_type)
     {
         $data = $this->db->query("
         select 
@@ -15,12 +15,13 @@ class Board_model extends CI_Model {
             ci_board 
         where 
             status = 0
+            AND board_type = '".$board_type."'
             AND title LIKE '%".$search."%'
         ");
         return $data->row();
     }
 
-    public function list_select($now_page,$search)
+    public function list_select($now_page,$search,$board_type)
     {
         if($now_page == '')
             $now_page = 0;
@@ -34,6 +35,7 @@ class Board_model extends CI_Model {
             ci_board as ci_board
         where 
             status = 0 
+            AND board_type = "'.$board_type.'"
             AND title LIKE "%'.$search.'%"
         order by _id desc
         limit '.$now_page.',10
@@ -50,6 +52,7 @@ class Board_model extends CI_Model {
             _id,
             title,
             content,
+            member_id,
             (select email from ci_member where _id = ci_board.member_id ) as name
         from 
             ci_board as ci_board
@@ -60,12 +63,25 @@ class Board_model extends CI_Model {
         return $data->row();
 
     }
-
-    public function board_insert($title,$content,$member_id){
+ 
+    public function board_delete($board_id){
 
         $this->db->query("
-            INSERT INTO ci_board(title,content,member_id)
-            values ('".$title."','".$content."','".$member_id."');
+            UPDATE 
+                ci_board
+            SET
+                status = 1
+            WHERE
+                _id = ".$board_id."
+        ");
+
+    }
+
+    public function board_insert($title,$content,$member_id,$board_type){
+
+        $this->db->query("
+            INSERT INTO ci_board(title,content,member_id,board_type)
+            values ('".$title."','".$content."',".$member_id.",'".$board_type."');
         ");
 
     }
@@ -89,6 +105,7 @@ class Board_model extends CI_Model {
             select
                 _id,
                 content,
+                member_id,
                 (select email from ci_member where _id = ci_comment.member_id) as name
             from
                 ci_comment as ci_comment
@@ -113,11 +130,11 @@ class Board_model extends CI_Model {
 
     } 
 
-    public function comment_insert($content,$board_id){
+    public function comment_insert($content,$board_id,$member_id){
 
         $this->db->query("
-            INSERT INTO ci_comment(board_id,content)
-            values(".$board_id.",'".$content."')
+            INSERT INTO ci_comment(board_id,content,member_id)
+            values(".$board_id.",'".$content."',".$member_id.")
         ");
 
     }  
