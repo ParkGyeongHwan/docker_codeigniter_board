@@ -19,7 +19,8 @@ class Member extends CI_Controller {
    }
 
 	public function login(){
-		$this->load->view('member/login');
+		$data['msg'] = $this->input->get("msg");
+		$this->load->view('member/login',$data);
 	}
 
 	public function update(){
@@ -45,15 +46,15 @@ class Member extends CI_Controller {
 		}
 	}
 	public function session() {
+
 		$email =  $this->input->post("email"); 
 		$password = $this->input->post("password");
 		$password = md5($password);
 
-
 		$result = $this->Board_model->member_login($email,$password);
 
 		if($result == '') {
-			echo '다시 확인해주세요';
+			header("Location: /index.php/member/login?msg=이메일과 비밀번호를 확인해주세요");
 		} else {
 			echo '로그인 성공';
 		}
