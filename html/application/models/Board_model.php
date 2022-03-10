@@ -159,4 +159,17 @@ public function comment_list($board_id) {
     }
 
 
+    public function member_insert($id,$pw) {
+        $this->db->query('
+        INSERT INTO ci_member
+            (email, passwd)
+        VALUES
+            ("'.$id.'", "'.$pw.'")
+        ;
+        ');
+    }
+    public function member_insert($id,pw) {
+        
+    }
+
 }
