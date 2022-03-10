@@ -14,11 +14,12 @@ class Member extends CI_Controller {
 	} 
 
 	public function input(){
-		$this->load->view('member/input');
-	}
+		$data['msg'] = $this->input->get("msg");
+	   $this->load->view('member/input',$data);
+   }
 
 	public function login(){
-		echo "로그인";
+		$this->load->view('member/login');
 	}
 
 	public function update(){
@@ -36,12 +37,28 @@ class Member extends CI_Controller {
 
 		if($result == true)
 		{
-			echo "회원가입이 완료되었습니다.";
+			header("Location: http://127.0.0.1:9001/index.php/member/login");
 		}
-		else {
-			echo "이미 가입된 이메일 입니다.";
-
+		else 
+		{
+			header("Location: /index.php/member/input?msg=중복된 이메일입니다");
 		}
 	}
+	public function session() {
+		$email =  $this->input->post("email"); 
+		$password = $this->input->post("password");
+		$password = md5($password);
+
+
+		$result = $this->Board_model->member_login($email,$password);
+
+		if($result == '') {
+			echo '다시 확인해주세요';
+		} else {
+			echo '로그인 성공';
+		}
+
+	}
+	
  }
 

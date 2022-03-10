@@ -193,6 +193,20 @@ public function comment_list($board_id) {
             return false;
         }
 
-    }  
+    }
+    public function member_login($email,$password) {
+        $data = $this->db->query("
+        select 
+            _id,
+            passwd 
+        from 
+            ci_member
+        where  
+            email = '".$email."'
+        and
+            passwd = '".$password."'
+        ");
+        return $data->row();
+    }
 
 }
