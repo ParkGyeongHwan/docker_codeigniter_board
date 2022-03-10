@@ -61,11 +61,11 @@ class Board_model extends CI_Model {
 
     }
 
-    public function board_insert($title,$content){
+    public function board_insert($title,$content,$member_id){
 
         $this->db->query("
-            INSERT INTO ci_board(title,content)
-            values ('".$title."','".$content."');
+            INSERT INTO ci_board(title,content,member_id)
+            values ('".$title."','".$content."','".$member_id."');
         ");
 
     }
