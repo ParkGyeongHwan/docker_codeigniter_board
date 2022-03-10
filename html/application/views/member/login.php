@@ -1,4 +1,4 @@
-<?php echo $msg;?> <br /> <br />
+
 로그인 하기
 <form method="post" action="/index.php/member/session">
     이메일 : <input type="text" name="email"> <br />

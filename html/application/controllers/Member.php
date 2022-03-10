@@ -3,10 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Member extends CI_Controller {
 
-    public function __construct() {
-        parent::__construct();
-        $this->load->model('Board_model');
-    }
+	public function __construct()  //생성자
+	{
+		parent::__construct();
+		$this->load->model('Board_model');  
+		$this->load->library('session');
+	}
 
 	public function index()
 	{
@@ -14,22 +16,11 @@ class Member extends CI_Controller {
 	} 
 
 	public function input(){
-		$data['msg'] = $this->input->get("msg");
-	   $this->load->view('member/input',$data);
-   }
-
-	public function login(){
-		$data['msg'] = $this->input->get("msg");
-		$this->load->view('member/login',$data);
+ 		$data['msg'] = $this->input->get("msg");
+		$this->load->view('member/input',$data);
 	}
 
-	public function update(){
-		echo "회원정보수정";
-	}
-
-  
-
-    public function insert(){
+	public function insert(){
 		$email =  $this->input->post("email"); 
 		$password = $this->input->post("password");
 		$password = md5($password);
@@ -38,28 +29,45 @@ class Member extends CI_Controller {
 
 		if($result == true)
 		{
-			header("Location: http://127.0.0.1:9001/index.php/member/login");
+			header("Location: /index.php/member/login");
 		}
-		else 
-		{
-			header("Location: /index.php/member/input?msg=중복된 이메일입니다");
+		else {
+			header("Location: /index.php/member/input?msg=있는 이메일입 니다");
 		}
 	}
-	public function session() {
 
-		$email =  $this->input->post("email"); 
+	public function login(){
+		
+		$this->session->sess_destroy(); // 세션 삭제
+		$this->load->view("member/login");
+	}
+
+	public function update(){
+		echo "회원정보수정";
+	}
+
+	public function session()
+	{
+		$email = $this->input->post("email"); 
 		$password = $this->input->post("password");
 		$password = md5($password);
 
-		$result = $this->Board_model->member_login($email,$password);
+		$result = $this->Board_model->login_select($email,$password);
 
-		if($result == '') {
-			header("Location: /index.php/member/login?msg=이메일과 비밀번호를 확인해주세요");
-		} else {
-			echo '로그인 성공';
+		if(isset($result->_id))
+		{
+			$newdata = array( 
+				'email'     => $email,
+				'_id' 		=> $result->_id
+			);
+
+			$this->session->set_userdata($newdata);
+
+			header("Location: /index.php/board/list");
 		}
-
+		else
+		{ 
+			header("Location: /index.php/member/login");
+		}
 	}
-	
- }
-
+}
