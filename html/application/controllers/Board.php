@@ -61,7 +61,8 @@ class Board extends CI_Controller {
 		$data['page_nation'] =  $this->pagination->create_links();
 		$data['list'] = $result_list; 
 		$data['search'] = $search;
-
+		$data['type'] = $board_type;
+		
 		$this->load->view('board/nav',$data); 
 		$this->load->view('board/list',$data); 
 	}
