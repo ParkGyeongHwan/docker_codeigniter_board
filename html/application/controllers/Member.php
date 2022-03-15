@@ -65,7 +65,7 @@ class Member extends CI_Controller {
 
 			$this->session->set_userdata($newdata);
 
-			header("Location: /index.php/board/list");
+			header("Location: /index.php/board/change_board?type=자유");
 		}
 		else
 		{ 
