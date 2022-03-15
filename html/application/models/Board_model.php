@@ -42,6 +42,7 @@ class Board_model extends CI_Model {
         ');
         
         $result = $data->result_array();
+
         return $result;
     }
 
